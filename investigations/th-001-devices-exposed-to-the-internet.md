@@ -145,8 +145,8 @@ Result
 
 This indicates:
 
-Attackers did not target the labuser account
-A successful password guess is highly unlikely
+Attackers did not target the labuser account,
+a successful password guess is highly unlikely,
 Source IP Analysis for Legitimate Logins
 
 All successful login IP addresses for labuser were reviewed.
