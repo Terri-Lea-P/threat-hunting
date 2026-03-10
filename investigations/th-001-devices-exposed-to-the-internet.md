@@ -57,19 +57,19 @@ DeviceInfo
 | where DeviceName startswith "windows-target"
 | where IsInternetFacing == true
 | order by Timestamp desc
-
+```
 
 Result
 
 windows-target-1 had been internet-facing for several days.
-
+```
 Last observed internet-facing timestamp
 2026-03-10T11:19:29.0253191Z
-
+```
 Failed Login Attempts
 
 Authentication logs were analyzed to identify potential brute force attempts.
-
+```
 DeviceLogonEvents
 | where DeviceName contains "windows-target"
 | where LogonType has_any("Network", "Interactive", "RemoteInteractive", "Unlock")
@@ -77,43 +77,52 @@ DeviceLogonEvents
 | where isnotempty(RemoteIP)
 | summarize Attempts = count() by ActionType, RemoteIP, DeviceName
 | order by Attempts
-
+```
 Findings
 
 Multiple external IP addresses attempted repeated failed logins, indicating clear brute-force activity against the exposed system.
 
 Screenshot evidence:
-<img width="1392" height="484" alt="image" src="https://github.com/user-attachments/assets/b57aa87a-b0ec-4ff0-9a3e-68f5a0efb98e" />
+<img width="1323" height="410" alt="image" src="https://github.com/user-attachments/assets/25e5630c-e3f1-4381-8232-ccc690bb293a" />
+
+
+
+
+
+
 
 
 Checking for Successful Compromise
 
 The top attacking IP addresses were checked for any successful authentication events.
-
+```
 let RemoteIPsInQuestion = dynamic(["149.50.101.27","162.254.3.130", "94.26.68.20", "111.11.4.120", "94.26.88.47"]);
 DeviceLogonEvents
 | where LogonType has_any("Network", "Interactive", "RemoteInteractive", "Unlock")
 | where ActionType == "LogonSuccess"
 | where RemoteIP has_any(RemoteIPsInQuestion)
-
+```
 Result
 
 No successful logins were observed from these IP addresses.
 
 Screenshot evidence:
-Pasted image 20260310114924.png
+<img width="1393" height="364" alt="image" src="https://github.com/user-attachments/assets/fb823eb4-2cfc-4eb6-b77e-e1b79a679745" />
+
+
+
 
 Successful Login Analysis
 
 Successful remote network logins over the previous 30 days were analyzed.
-
+```
 DeviceLogonEvents
 | where DeviceName contains "windows-target"
 | where LogonType == "Network"
 | where ActionType == "LogonSuccess"
 | where AccountName contains "labuser"
 | summarize count()
-
+```
 Result
 
 21 successful logins
@@ -123,70 +132,66 @@ All associated with the legitimate account labuser
 Brute Force Against labuser
 
 To determine if attackers attempted to brute force this account:
-
+```
 DeviceLogonEvents
 | where DeviceName contains "windows-target"
 | where LogonType == "Network"
 | where ActionType == "LogonFailed"
 | where AccountName contains "labuser"
 | summarize count()
-
+```
 Result
 0 failed login attempts
 
 This indicates:
 
 Attackers did not target the labuser account
-
 A successful password guess is highly unlikely
-
 Source IP Analysis for Legitimate Logins
 
 All successful login IP addresses for labuser were reviewed.
-
+```
 DeviceLogonEvents
 | where DeviceName contains "windows-target"
 | where LogonType == "Network"
 | where ActionType == "LogonSuccess"
 | where AccountName contains "labuser"
 | summarize LoginCount = count()by DeviceName, ActionType, AccountName, RemoteIP
-
+```
 Result
 
 All login IP addresses appeared consistent with expected activity and did not originate from suspicious or unknown locations.
 
 Screenshot evidence:
-Pasted image 20260310122207.png
+<img width="1397" height="442" alt="image" src="https://github.com/user-attachments/assets/474fa1f8-1f45-4256-9722-756173ed416a" />
 
-4. Investigation
+
+# 4. Investigation
 Key Findings
 
 The VM windows-target-1 was exposed to the internet
-
 Multiple external IP addresses performed brute-force login attempts
-
 No attackers successfully authenticated
-
 No suspicious activity occurred after successful logins
 
 All successful access belonged to the legitimate labuser account
 
-5. MITRE ATT&CK Mapping
+## 5. MITRE ATT&CK Mapping
 
 Observed activity mapped to the following ATT&CK techniques:
-
+```
 Tactic	Technique	Description
 Initial Access	T1133 – External Remote Services	Internet-facing system exposed to attackers
 Credential Access	T1110 – Brute Force	Multiple failed login attempts
 Credential Access	T1110.003 – Password Spraying (Possible)	Repeated login attempts from external sources
 Defense Evasion / Persistence	T1078 – Valid Accounts (Ruled Out)	No evidence of account compromise
-6. Response
+```
+# 6. Response
 
 Although no compromise occurred, the exposed VM represented a significant security risk.
-
 The following remediation steps were implemented:
 
-Network Security
+## Network Security
 
 Hardened the Network Security Group (NSG)
 
@@ -200,7 +205,7 @@ Implemented account lockout policies to prevent brute force attacks
 
 Enabled Multi-Factor Authentication (MFA)
 
-7. Documentation
+# 7. Documentation
 
 This investigation confirmed that:
 
@@ -218,11 +223,11 @@ Authentication telemetry analysis
 
 Rapid mitigation of misconfigurations
 
-8. Improvement Opportunities
+# 8. Improvement Opportunities
 
 Several preventative measures could reduce future risk.
 
-Security Improvements
+## Security Improvements
 
 Implement default account lockout policies
 
@@ -232,7 +237,7 @@ Restrict RDP exposure via NSG rules
 
 Implement continuous monitoring for exposed assets
 
-Hunting Improvements
+## Hunting Improvements
 
 Future hunts could incorporate:
 
@@ -242,7 +247,7 @@ Detection rules for brute-force login thresholds
 
 Monitoring of unusual authentication source IPs
 
-Conclusion
+## Conclusion
 
 The investigation identified a misconfigured internet-facing VM that attracted multiple brute-force login attempts from external attackers.
 
