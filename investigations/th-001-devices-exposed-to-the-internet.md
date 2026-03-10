@@ -1,5 +1,8 @@
 # Threat Hunt Report: Internet-Exposed VM & Potential Brute Force Attempts
 
+<img width="1528" height="817" alt="image" src="https://github.com/user-attachments/assets/62d18608-3b35-482b-b3e0-e9794e882d17" />
+
+
 ## Overview
 
 During routine maintenance, the security team investigated whether any virtual machines in the **shared services cluster** (DNS, Domain Services, DHCP, etc.) had been mistakenly exposed to the public internet.
