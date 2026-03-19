@@ -1,3 +1,7 @@
+<img width="275" height="183" alt="image" src="https://github.com/user-attachments/assets/03f8b8cd-5d54-4b06-a990-00171cd89898" />
+
+
+
 ## Scenario Overview
 
 The server team reported significant network performance degradation across legacy devices within the 10.0.0.0/16 network.
