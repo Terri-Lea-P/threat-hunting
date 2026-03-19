@@ -5,7 +5,7 @@
 
 
 
-## Scenario Overview
+## Overview
 
 The server team reported significant network performance degradation across legacy devices within the 10.0.0.0/16 network.
 After ruling out external DDoS activity, the hypothesis was that abnormal internal activity may be responsible, such as:
