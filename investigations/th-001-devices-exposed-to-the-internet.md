@@ -17,7 +17,7 @@ The objective of this hunt was to:
 
 ---
 
-# 1. Preparation
+## 1. Preparation
 
 ## Hypothesis
 
@@ -31,11 +31,11 @@ Potential attacker objective:
 
 ---
 
-# 2. Data Collection
+## 2. Data Collection
 
 Relevant log sources were confirmed to contain recent telemetry.
 
-### Investigated Tables
+## Investigated Tables
 
 - `DeviceInfo`
 - `DeviceLogonEvents`
@@ -49,7 +49,7 @@ These tables provide:
 
 ---
 
-# 3. Data Analysis
+## 3. Data Analysis
 
 ## Internet Exposure Detection
 
