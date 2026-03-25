@@ -2,7 +2,7 @@
 
 <img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/a2a78e90-87b1-4655-b2d1-0032f3ab6540" />
 
-## Scenario Overview
+## Overview
 
 An employee named John Doe, working in a sensitive department, was placed on a performance improvement plan (PIP). Following a negative reaction, management raised concerns that the employee may attempt to exfiltrate proprietary company data before leaving the organisation.
 
