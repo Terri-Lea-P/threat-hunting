@@ -1,1 +1,1 @@
-# Threat Hunt Report
+# Threat Hunt Report: PwnCrypt Ransomware Execution Investigation
