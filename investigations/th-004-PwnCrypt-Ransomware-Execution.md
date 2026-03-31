@@ -1,5 +1,8 @@
 # Threat Hunt Report: PwnCrypt Ransomware Execution Investigation
 
+<img width="976" height="549" alt="image" src="https://github.com/user-attachments/assets/bbb4bb68-db04-4565-9fea-528b784108a0" />
+
+
 ## Scenario
 
 A newly identified ransomware strain known as PwnCrypt has been reported, leveraging a PowerShell-based payload to encrypt files on infected systems. The malware targets directories such as C:\Users\Public\Desktop and appends a .pwncrypt extension to affected files.
